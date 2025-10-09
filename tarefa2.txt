@@ -1,0 +1,117 @@
+<template>
+  <div id="app">
+    <h1>{{ mensagem }}</h1>
+
+    <!-- Primeiro Contador -->
+    <div class="contador-section">
+      <h2>Contador A</h2>
+      <p>Contador: {{ contadorA }}</p>
+      <p>Contador em dobro (computed): {{ contadorADobrado }}</p>
+      <p>Status (par/ímpar): {{ statusParidadeA }}</p>
+      
+      <div class="button-container">
+        <button @click="decrementarA">-1</button>
+        <button @click="incrementarA">+1</button>
+      </div>
+    </div>
+
+    <!-- Segundo Contador -->
+    <div class="contador-section">
+      <h2>Contador B</h2>
+      <p>Contador: {{ contadorB }}</p>
+      <p>Contador em dobro (computed): {{ contadorBDobrado }}</p>
+      <p>Status (par/ímpar): {{ statusParidadeB }}</p>
+      
+      <div class="button-container">
+        <button @click="decrementarB">-1</button>
+        <button @click="incrementarB">+1</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+
+// Estado base
+const mensagem = ref('Hello, Vue!')
+const contadorA = ref(0)
+const contadorB = ref(0)
+
+// Ações para o Contador A
+function incrementarA() {
+  contadorA.value++
+}
+
+function decrementarA() {
+  contadorA.value--
+}
+
+// Ações para o Contador B
+function incrementarB() {
+  contadorB.value++
+}
+
+function decrementarB() {
+  contadorB.value--
+}
+
+// Valores derivados (computed) para Contador A
+const contadorADobrado = computed(() => contadorA.value * 2)
+const statusParidadeA = computed(() => (contadorA.value % 2 === 0 ? 'par' : 'ímpar'))
+
+// Valores derivados (computed) para Contador B
+const contadorBDobrado = computed(() => contadorB.value * 2)
+const statusParidadeB = computed(() => (contadorB.value % 2 === 0 ? 'par' : 'ímpar'))
+</script>
+
+<style scoped>
+h1 { 
+  color: #42b983; 
+  text-align: center; 
+  margin-top: 40px; 
+}
+
+h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.contador-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+p { 
+  text-align: center; 
+  font-size: 1.1rem; 
+  margin-top: 8px; 
+}
+
+.button-container { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  margin: 16px auto; 
+}
+
+button { 
+  padding: 6px 14px; 
+  cursor: pointer; 
+  border: 1px solid #42b983;
+  background: white;
+  color: #42b983;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background: #42b983;
+  color: white;
+}
+</style>

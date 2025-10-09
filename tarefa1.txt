@@ -1,0 +1,57 @@
+<template>
+  <div id="app">
+    <h1>{{ mensagem }}</h1>
+
+    <p>Contador: {{ contador }}</p>
+
+    <!-- Usando valores computados no template -->
+    <p>Contador em dobro (computed): {{ contadorDobrado }}</p>
+    <p>Status (par/ímpar): {{ statusParidade }}</p>
+
+    <div class="button-container">
+      <button @click="decrementar">-1</button>
+      <button @click="incrementar">+1</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+
+// Estado base
+const mensagem = ref('Hello, Vue!')
+const contador = ref(0)
+
+// Ações
+function incrementar() {
+  contador.value++
+}
+
+function decrementar() {
+  contador.value--
+}
+
+// Valores derivados (computed) — cacheados
+const contadorDobrado = computed(() => contador.value * 2)
+const statusParidade  = computed(() => (contador.value % 2 === 0 ? 'par' : 'ímpar'))
+
+/*
+- computed(() => ...) define um valor derivado com cache.
+- Só recalcula quando 'contador.value' mudar.
+*/
+</script>
+
+<style scoped>
+h1 { color: #42b983; text-align: center; margin-top: 40px; }
+p  { text-align: center; font-size: 1.1rem; margin-top: 8px; }
+.button-container { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  margin: 16px auto; 
+}
+button { 
+  padding: 6px 14px; 
+  cursor: pointer; 
+}
+</style>

@@ -3,9 +3,9 @@
     <h1>{{ mensagem }}</h1>
 
     <!-- Primeiro Contador -->
-    <div class="contador-section" :class="{ 'destaque-maior': maiorContador === 'A' }">
+    <div class="contador-section">
       <h2>Contador A</h2>
-      <p>Contador: <span :class="{ 'numero-destaque': maiorContador === 'A' }">{{ contadorA }}</span></p>
+      <p>Contador: {{ contadorA }}</p>
       <p>Contador em dobro (computed): {{ contadorADobrado }}</p>
       <p>Status (par/ímpar): {{ statusParidadeA }}</p>
       
@@ -16,9 +16,9 @@
     </div>
 
     <!-- Segundo Contador -->
-    <div class="contador-section" :class="{ 'destaque-maior': maiorContador === 'B' }">
+    <div class="contador-section">
       <h2>Contador B</h2>
-      <p>Contador: <span :class="{ 'numero-destaque': maiorContador === 'B' }">{{ contadorB }}</span></p>
+      <p>Contador: {{ contadorB }}</p>
       <p>Contador em dobro (computed): {{ contadorBDobrado }}</p>
       <p>Status (par/ímpar): {{ statusParidadeB }}</p>
       
@@ -28,18 +28,12 @@
       </div>
     </div>
 
-    <!-- Seção de Igualdade -->
-    <div v-if="maiorContador === 'igual'" class="igual-section">
-      <p class="igual-mensagem">⚖️ Os contadores estão empatados!</p>
-    </div>
-
     <!-- Soma dos Contadores -->
     <div class="soma-section">
       <h2>Soma dos Contadores</h2>
       <p class="soma-resultado">Soma: {{ somaContadores }}</p>
       <p class="soma-dobro">Soma em dobro: {{ somaDobro }}</p>
       <p class="soma-status">Status da soma: {{ statusSoma }}</p>
-      <p class="maior-info">Maior contador: {{ textoMaiorContador }}</p>
     </div>
   </div>
 </template>
@@ -82,22 +76,6 @@ const statusParidadeB = computed(() => (contadorB.value % 2 === 0 ? 'par' : 'ím
 const somaContadores = computed(() => contadorA.value + contadorB.value)
 const somaDobro = computed(() => somaContadores.value * 2)
 const statusSoma = computed(() => (somaContadores.value % 2 === 0 ? 'par' : 'ímpar'))
-
-// Computed para determinar qual contador é maior
-const maiorContador = computed(() => {
-  if (contadorA.value > contadorB.value) return 'A'
-  if (contadorB.value > contadorA.value) return 'B'
-  return 'igual'
-})
-
-// Texto descritivo do maior contador
-const textoMaiorContador = computed(() => {
-  switch (maiorContador.value) {
-    case 'A': return 'Contador A 🏆'
-    case 'B': return 'Contador B 🏆'
-    default: return 'Empate ⚖️'
-  }
-})
 </script>
 
 <style scoped>
@@ -120,38 +98,6 @@ h2 {
   margin: 20px auto;
   max-width: 400px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-/* Estilo para o contador que está na frente */
-.destaque-maior {
-  background: #fff3cd;
-  border: 2px solid #ffc107;
-  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
-  transform: translateY(-2px);
-}
-
-.numero-destaque {
-  font-weight: bold;
-  color: #e65100;
-  font-size: 1.4rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-
-.igual-section {
-  text-align: center;
-  margin: 10px auto;
-  max-width: 400px;
-}
-
-.igual-mensagem {
-  background: #e3f2fd;
-  color: #1565c0;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  border: 1px solid #90caf9;
 }
 
 .soma-section {
@@ -178,16 +124,6 @@ h2 {
 .soma-status {
   font-size: 1.1rem;
   color: #666;
-}
-
-.maior-info {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #d84315;
-  margin-top: 12px;
-  padding: 8px;
-  background: #fff3e0;
-  border-radius: 4px;
 }
 
 p { 
