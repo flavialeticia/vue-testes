@@ -1,8 +1,7 @@
 <template>
   <form @submit.prevent="adicionar">
     <input v-model.trim="novoTexto" placeholder="Digite a mensagem" />
-    <button :disabled="!novoTexto">Adicionar</button>
-    <p v-if="erro" style="color: red; font-size: 0.9rem;">{{ erro }}</p>
+    <button>Adicionar</button>
   </form>
 
   <div v-if="estado.itens.length > 0" style="margin-top: 1rem;">
@@ -12,17 +11,11 @@
     <button @click="limpar">Limpar Tudo</button>
 
     <ul>
-      <li
-        v-for="item in filtradas"
-        :key="item.id"
-        :class="{ longo: item.texto.length > 30 }"
-      >
+      <li v-for="item in filtradas" :key="item.id">
         #{{ item.id }} — {{ item.texto }}
         <button @click="remover(item.id)">Remover</button>
       </li>
     </ul>
-
-    <p v-if="!filtradas.length">Nenhuma mensagem encontrada.</p>
   </div>
 
   <p v-else>Lista vazia.</p>
@@ -38,21 +31,15 @@ const estado = reactive({
 
 const novoTexto = ref('')
 const filtro = ref('')
-const erro = ref('')
 
 function adicionar() {
-  if (novoTexto.value.trim() === '') {
-    erro.value = '⚠️ Digite uma mensagem antes de adicionar.'
-    return
-  }
-
+  if (novoTexto.value.trim() === '') return
   estado.itens.push({
     id: estado.nextId,
     texto: novoTexto.value
   })
   estado.nextId++
   novoTexto.value = ''
-  erro.value = ''
 }
 
 function remover(id) {
@@ -63,22 +50,9 @@ function limpar() {
   estado.itens = []
 }
 
-// Computed: filtra mensagens conforme o texto digitado
+// Computed: filtra mensagens conforme o texto digitado em "filtro"
 const filtradas = computed(() => {
   const termo = filtro.value.toLowerCase()
   return estado.itens.filter(i => i.texto.toLowerCase().includes(termo))
 })
 </script>
-
-<style scoped>
-.longo {
-  background-color: #fff3cd;
-  border-left: 4px solid #ffb300;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-</style>
